@@ -21,9 +21,8 @@ class CategoriesController extends Controller
                 'categories.*',
                 'parents.name as parent_name'
             ])
-//        ->onlyTrashed()  // Soft Deletes
-//        ->withTrashed() // Soft Deletes
-        ->filter(\request()->all())->paginate(2);
+
+        ->filter(\request()->all())->paginate();
         return view('dashboard.categories.index', compact('categories'));
     }
 
@@ -122,10 +121,7 @@ class CategoriesController extends Controller
     {
          $category =  Category::findOrFail($id);
          $category->delete();
-//          if ($category->image)
-//          {
-//              Storage::disk('public')->delete($category->image);
-//          }
+
         return redirect()->route('dashboard.categories.index')
             ->with('success' , 'Category Deleted Successfully');
     }
@@ -133,7 +129,7 @@ class CategoriesController extends Controller
     {
         if (!$request->hasFile('image'))
         {
-            return ;
+            return null;
         }
             $file = $request->file('image');
             $path = $file->store('categories','public');
@@ -141,4 +137,33 @@ class CategoriesController extends Controller
             return $path;
 
     }
+    public function trash()
+    {
+        $categories = Category::onlyTrashed()->paginate();
+
+        return view('dashboard.categories.trash',compact('categories'));
+    }
+    public function restore(Request $request,$id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+
+        $category->restore();
+
+        return redirect()->route('dashboard.categories.index')
+            ->with('success','Category restored successfully');
+    }
+    public function forceDelete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+
+        $category->forceDelete();
+
+        if ($category->image)
+        {
+            Storage::disk('public')->delete($category->image);
+        }
+        return redirect()->route('dashboard.categories.index')
+            ->with('success','Category deleted forever');
+    }
+
 }
