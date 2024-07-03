@@ -85,7 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="#" class="dropdown-item">
                         <!-- Message Start -->
                         <div class="media">
-                            <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                            <img src={{asset("dist/img/user8-128x128.jpg")}} alt="User Avatar" class="img-size-50 img-circle mr-3">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     John Pierce
@@ -197,7 +197,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
 
             <!-- Sidebar Menu -->
-            @include('layouts.partials.nav')
+{{--            @include('layouts.partials.nav')--}}
+            <x-nav />
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
