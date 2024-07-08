@@ -14,5 +14,13 @@ return [
         'badge' => 'New',
         'active' => 'dashboard.categories.*'
     ],
+    [
+        'icon' => 'far fa-circle nav-icon',
+        'route' => 'dashboard.products.index',
+        'title' => 'Products',
+        'badge' => 'New',
+        'active' => 'dashboard.products.*'
+    ],
+
 
 ];

@@ -57,4 +57,8 @@ class Category extends Model
             'status' => 'required|in:active,archived'
         ];
     }
+    public function products()
+    {
+       return $this->hasMany(Product::class);
+    }
 }
