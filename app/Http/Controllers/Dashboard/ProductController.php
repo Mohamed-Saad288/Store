@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -47,7 +50,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $tags = implode(',',$product->tags()->pluck('name')->toArray());
+        return view('dashboard.products.edit',compact('product','tags'));
     }
 
     /**
@@ -55,7 +59,47 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate(Product::rules());
+
+        $old_image = $product->image ;
+
+        $data = $request->except(['image','tags']);
+
+        $new_image = $this->uploadImage($request);
+        if ($new_image)
+        {
+            $data['image'] = $new_image;
+        }
+        $product->update($data);
+
+        if ($old_image && $new_image)
+        {
+            Storage::disk('public')->delete($old_image);
+        }
+
+        $tags = json_decode($request->post('tags')) ;
+
+        $tag_ids = [];
+
+        $saved_tags = Tag::all();
+
+        foreach ($tags as $item){
+            $slug = Str::slug($item->value);
+            $tag = $saved_tags->where('slug',$slug)->first();
+            if (!$tag)
+            {
+               $tag =  Tag::create([
+                   'name' => $item->value,
+                   'slug' => $slug
+                ]);
+            }
+            $tag_ids[] = $tag->id;
+        }
+
+        $product->tags()->sync($tag_ids);
+
+
+        return redirect()->route('dashboard.products.index')->with('success','Product updated');
     }
 
     /**
@@ -64,5 +108,18 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    protected function uploadImage(Request $request)
+    {
+        if (!$request->hasFile('image'))
+        {
+            return null;
+        }
+        $file = $request->file('image');
+        $path = $file->store('products','public');
+
+        return $path;
+
     }
 }

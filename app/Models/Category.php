@@ -41,7 +41,7 @@ class Category extends Model
                 ['required',
                     'min:3',
                     'max:255',
-                    "unique:categories,id",
+                    "unique:categories,name",
 //                    function($attribute , $value , $fails)
 //                    {
 //                        if(strtolower($value) == 'laravel')
