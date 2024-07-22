@@ -25,9 +25,8 @@ class SendOrderCreatedNotification
     public function handle(OrderCreated $event): void
     {
         $order = $event->order;
-        $user = User::where('store_id' , $order->store_id )->first();
+        $user = User::first();
         try {
-            ini_set('max_execution_time',3600);
             $user->notify(new OrderCreatedNotification($order));
         }catch (\Throwable $e)
         {

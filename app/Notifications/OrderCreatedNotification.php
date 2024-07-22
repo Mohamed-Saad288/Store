@@ -43,7 +43,7 @@ class OrderCreatedNotification extends Notification
 //            $channels[] = 'broadcaast';
 //        }
 //        return $channels;
-        return ['mail','broadcast'];
+        return ['mail','broadcast','database'];
 
 
     }
@@ -73,6 +73,16 @@ class OrderCreatedNotification extends Notification
         ]);
     }
 
+    public function toDatabase(object $notifiable)
+    {
+        $addr = $this->order->billingAddress;
+        return [
+           'body' => "A new order (#{$this->order->number}) created by {$addr->name} from {$addr->country_name}.",
+            'icon' => 'fas fa-file',
+            'url' => url('/dashboard'),
+            'order_id' => $this->order->id
+        ];
+    }
 
     /**
      * Get the array representation of the notification.
