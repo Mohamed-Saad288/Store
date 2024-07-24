@@ -35,6 +35,6 @@ Route::post('/checkout',[CheckoutController::class,'store']);
 
 Route::resource('cart',CartController::class);
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
 
