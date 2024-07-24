@@ -30,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
         OrderCreated::class => [
             DeductProductQuantity::class,
             SendOrderCreatedNotification::class,
-            //EmptyCart::class,
+            EmptyCart::class,
         ],
 
     ];
