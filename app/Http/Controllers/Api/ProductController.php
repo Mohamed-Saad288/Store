@@ -11,6 +11,10 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except('index','show');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -28,6 +32,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate(Product::rules());
+
+        $user = $request->user();
+        if (! $user->tokenCan('product.create'))
+        {
+            return Response::json([
+               'message' => 'Not allowed'
+            ],403);
+        }
 
         $product = Product::create($request->all());
 

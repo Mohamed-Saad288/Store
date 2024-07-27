@@ -86,6 +86,8 @@ return [
 
     'locale' => 'en',
 
+    'api_token' => env('API_TOKEN'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
