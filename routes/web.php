@@ -9,6 +9,7 @@ use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,28 +22,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[HomeController::class,'index'])
-    ->name('home');
 
-Route::get('/products',[ProductController::class,'index'])
-     ->name('products.index');
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){
 
-Route::get('/products/{product:slug}',[ProductController::class,'show'])
-    ->name('products.show');
 
-Route::get('/checkout',[CheckoutController::class,'create'])
-    ->name('checkout');
+    Route::get('/',[HomeController::class,'index'])
+        ->name('home');
 
-Route::post('/checkout',[CheckoutController::class,'store']);
+    Route::get('/products',[ProductController::class,'index'])
+        ->name('products.index');
 
-Route::get('/auth/user/2fa',[TwoFactorAuthenticationController::class,'index'])
-    ->middleware('auth')
-    ->name('front.2fa');
+    Route::get('/products/{product:slug}',[ProductController::class,'show'])
+        ->name('products.show');
 
-Route::post('/currency',[CurrencyConverterController::class,'store'])
-    ->name('currency.store');
+    Route::get('/checkout',[CheckoutController::class,'create'])
+        ->name('checkout');
 
-Route::resource('cart',CartController::class);
+    Route::post('/checkout',[CheckoutController::class,'store']);
+
+    Route::get('/auth/user/2fa',[TwoFactorAuthenticationController::class,'index'])
+        ->middleware('auth')
+        ->name('front.2fa');
+
+    Route::post('/currency',[CurrencyConverterController::class,'store'])
+        ->name('currency.store');
+
+    Route::resource('cart',CartController::class);
+});
+
+
 
 
 //require __DIR__.'/auth.php';
