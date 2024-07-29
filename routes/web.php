@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Front\Auth\TwoFactorAuthenticationController;
 use App\Http\Controllers\Front\CartController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CurrencyConverterController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductController;
+use App\Http\Controllers\Front\SocialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -52,9 +54,17 @@ Route::group(
         ->name('currency.store');
 
     Route::resource('cart',CartController::class);
+
 });
 
+Route::get('/auth/{provider}/redirect',[SocialLoginController::class,'redirect'])
+    ->name('auth.socialite.redirect');
 
+Route::get('/auth/{provider}/callback',[SocialLoginController::class,'callback'])
+    ->name('auth.socialite.callback');
+
+Route::get('/auth/{provider}/user',[SocialController::class,'index'])
+    ->name('auth.social.user');
 
 
 //require __DIR__.'/auth.php';

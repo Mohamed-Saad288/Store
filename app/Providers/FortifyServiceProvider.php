@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+
         $request = request();
         if ($request->is('admin/*'))
         {
@@ -62,6 +65,7 @@ class FortifyServiceProvider extends ServiceProvider
         {
             Fortify::viewPrefix('front.auth.');
         }
+        $this->configureRoutes();
 
 
 
@@ -72,5 +76,17 @@ class FortifyServiceProvider extends ServiceProvider
 //              Fortify::registerView(function (){
 //                  return view('auth.register');
 //              });
+    }
+    protected function configureRoutes()
+    {
+        if (Fortify::$registersRoutes) {
+            Route::group([
+                'namespace' => 'Laravel\Fortify\Http\Controllers',
+                'domain' => config('fortify.domain', null),
+                'prefix' => LaravelLocalization::setLocale(),
+            ], function () {
+                $this->loadRoutesFrom(base_path('vendor/laravel/fortify/routes/routes.php'));
+            });
+        }
     }
 }

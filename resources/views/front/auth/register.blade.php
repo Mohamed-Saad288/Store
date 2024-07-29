@@ -1,15 +1,15 @@
-<x-front-layout title="Login">
+<x-front-layout title="Register">
     <!-- Start Account Login Area -->
     <div class="account-login section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
-                    <form class="card login-form" action="{{ route('login') }}" method="post">
+                    <form class="card login-form" action="{{ route('register') }}" method="post">
                         @csrf
                         <div class="card-body">
                             <div class="title">
-                                <h3>Login Now</h3>
-                                <p>You can login using your social media account or email address.</p>
+                                <h3>Register Now</h3>
+                                <p>You can Register using your social media account or email address.</p>
                             </div>
                             <div class="social-login">
                                 <div class="row">
@@ -33,6 +33,10 @@
                                 </div>
                             @endif
                             <div class="form-group input-group">
+                                <label for="nae">Name</label>
+                                <input class="form-control" type="text" name="name" id="name" required>
+                            </div>
+                            <div class="form-group input-group">
                                 <label for="reg-fn">Email</label>
                                 <input class="form-control" type="text" name="{{ config('fortify.username') }}" id="reg-email" required>
                             </div>
@@ -48,10 +52,10 @@
 
                             </div>
                             <div class="button">
-                                <button class="btn" type="submit">Login</button>
+                                <button class="btn" type="submit">Register</button>
                             </div>
                             @if(Route::has('password.register'))
-                            <p class="outer-link">Don't have an account? <a href="{{ route('register') }}">Register here </a>
+                            <p class="outer-link">Already have an account? <a href="{{ route('Login') }}">Login here </a>
                                 @endif
                             </p>
                         </div>

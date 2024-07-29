@@ -7,9 +7,18 @@
         @if($product->new)
             <span class="new-tag"> New </span>
         @endif
-        <div class="button">
-            <a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+        <form action="{{ route('cart.store') }}" method="post" >
+
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="quantity" value="1">
+
+
+            <div class="button" >
+            <button type="submit" class="btn"><i class="lni lni-cart" ></i>{{ __('Add to Cart') }}</button>
         </div>
+        </form>
+
     </div>
     <div class="product-info">
         <span class="category">{{ $product->category->name }}</span>
