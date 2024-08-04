@@ -461,14 +461,7 @@
 {{--<script src="{{ asset('assets/js/tiny-slider.js') }}"></script>--}}
 <script src="{{ asset('assets/js/glightbox.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script>
-        const csrf_token="{{csrf_token()}}";
-    </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {{--        <script src="{{asset('/js/cart.js')}}"></script>--}}
-    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/cart.js'])
-@stack('scripts')
 <script type="text/javascript">
     //========= Hero Slider
     tns({

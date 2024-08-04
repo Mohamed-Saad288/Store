@@ -4,6 +4,7 @@
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\RolesController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,14 @@ Route::group([
         ->name('categories.force-delete');
 
 
-    Route::resource('/categories',CategoriesController::class);
-    Route::resource('/products',ProductController::class);
+
+
+    Route::resources([
+
+         'categories' => CategoriesController::class,
+        'products' => ProductController::class,
+        'roles' => RolesController::class
+
+    ]);
 
     });

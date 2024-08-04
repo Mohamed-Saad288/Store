@@ -28,7 +28,18 @@ class DatabaseSeeder extends Seeder
 //            'email' => 'mosaad2888@gmial.com',
 //            'password' => Hash::make('password'),
 //        ]);
-        Admin::factory('3')->create();
+//        Admin::factory('3')->create();
        // $this->call(UserSeeder::class);
+
+
+
+        Admin::create([
+            'name' => 'Store Owner',
+            'email' => 'store@gmail.com',
+            'password' => Hash::make('password'),
+            'username'=> 'store',
+            'phone_number' => '01044569654',
+            'super_admin' => 0
+        ]);
     }
 }

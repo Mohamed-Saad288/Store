@@ -65,7 +65,6 @@ class FortifyServiceProvider extends ServiceProvider
         {
             Fortify::viewPrefix('front.auth.');
         }
-        $this->configureRoutes();
 
 
 

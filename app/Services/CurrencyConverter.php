@@ -8,7 +8,7 @@ class CurrencyConverter
 {
     private $apikey;
 
-    protected $baseUrl = "https://free.currencyconverterapi.com/api/v7";
+    protected $baseUrl = "https://free.currconv.com/api/v7";
 
     public function __construct(string $apikey)
     {
@@ -27,7 +27,6 @@ class CurrencyConverter
 
        $result = $response->json();
 
-       dd($result);
 
        return $result[$q]['val'] * $amount;
     }
